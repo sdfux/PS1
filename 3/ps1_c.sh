@@ -1,0 +1,34 @@
+#!/bin/bash
+# Customizing prompt
+user_bg="\[\033[48;5;19m\]"
+triangle_user_fg="\[\033[38;5;19m\]"
+dir_bg="\[\033[48;5;26m\]"
+dir_fg="\[\033[38;5;254m\]"
+triangle_dir_fg="\[\033[38;5;26m\]"
+time_bg="\[\033[48;5;33m\]"
+triangle_time_fg="\[\033[38;5;33m\]"
+branch_bg="\[\033[48;5;195m\]"
+branch_fg="\[\033[38;5;195m\]"
+dollar_bg="\[\033[48;5;33m\]"
+black_bg="\[\033[48;5;0m\]"
+b_symbol_fg="\[\033[38;5;0m\]"
+triangle_dollar_fg="\[\033[38;5;33m\]"
+
+Grey93_fg="\[\033[38;5;255m\]"
+blue20_fg="\[\033[38;5;20m\]"
+
+
+RESET="\[$(tput sgr0)\]"
+
+triangle_user=$(echo -e "${triangle_user_fg}${dir_bg}\uE0B0${RESET}")
+symbol_end=$(echo -e "${RESET}${triangle_dir_fg}\uE0BC${RESET}")
+triangle_last=$(echo -e "${triangle_time_fg}\uE0B0")
+a_symbol=$(echo -e "${blue20_fg}${user_bg}\uE0B0")
+b_symbol=$(echo -e "${b_symbol_fg}${dollar_bg}\uE0BC${RESET}")
+triangle_dollar=$(echo -e "${triangle_dollar_fg}\uE0B0")
+
+
+PS1="\n${a_symbol} ${RESET}${user_bg}\u:\h${triangle_user}${dir_bg}${dir_fg}\w ${branch_fg} \`parse_git_branch\` ${symbol_end}\n${b_symbol}${time_bg}\t \$${RESET}${triangle_dollar}${RESET} "
+
+
+
