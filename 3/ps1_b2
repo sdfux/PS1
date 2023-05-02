@@ -1,0 +1,125 @@
+#!/bin/bash
+# Customizing prompt
+
+#Esta funcion corresponde a gradiente_v2.sh, sin los comentarios y variables no usadas.
+
+function gradient() {
+    
+
+#!/bin/bash
+unset rgb_steps;
+unset grad_b_symbol;
+IFS=', ' read -r -a rgbini <<< "58,58,58"
+IFS=', ' read -r -a rgbfin <<< "215,0,95"
+colorsteps=8
+let stepshalf=$((colorsteps/2-1))
+
+let step_r=$((rgbini[0] - rgbfin[0]))
+step_r=$((step_r*-1/colorsteps))
+let step_g=$((rgbini[1] - rgbfin[1]))
+step_g=$((step_g*-1/colorsteps))
+let step_b=$((rgbini[2] - rgbfin[2]))
+step_b=$((step_b*-1/colorsteps))
+
+temp_r=${rgbini[0]}
+temp_g=${rgbini[1]}
+temp_b=${rgbini[2]}
+
+black_fg="\[\033[38;5;0m\]"
+grad_triangle="\\uE0B0"
+grad_half="\\uE0B1"
+grad_symbol="$grad_half"
+
+
+max=$((colorsteps-1))
+for i in $(seq 0 $max)
+do
+
+    if [[ ${i} -eq $stepshalf ]]; then
+        grad_b_symbol="${grad_b_symbol}\n"
+
+        grad_triangle_mid_color="2;$temp_r;$temp_g;$temp_b"
+        temp_r=$((temp_r+step_r))
+        temp_g=$((temp_g+step_g))
+        temp_b=$((temp_b+step_b))
+        continue;
+
+    fi
+    if [[ ${i} -eq $max ]]; then
+        temp_r=${rgbfin[0]}
+        temp_g=${rgbfin[1]}
+        temp_b=${rgbfin[2]}
+    fi    
+
+    grad_user_bg_c="2;$temp_r;$temp_g;$temp_b"
+
+    
+
+    grad_user_bg="\[\e[48;${grad_user_bg_c}m\]"
+    grad_b_symbol=${grad_b_symbol}$(echo -e "${black_fg}${grad_user_bg}${grad_symbol}")
+
+
+
+    temp_r=$((temp_r+step_r))
+    temp_g=$((temp_g+step_g))
+    temp_b=$((temp_b+step_b))
+    
+done
+
+grad_first=$(sed 's/\\n/X/' <<< $grad_b_symbol | awk -F"X" '{print $1}')
+grad_second=$(sed 's/\\n/X/' <<< $grad_b_symbol | awk -F"X" '{print $2}')
+grad_triangle=$(echo -e "${RESET}\[\e[38;${grad_triangle_mid_color}m\]\uE0B0${RESET}")
+
+}
+
+
+
+
+user_bg_c="2;0;135;175"
+user_bg='\[\e[48;${user_bg_c}m\]'
+#user_bg="\[\033[48;5;31m\]"
+triangle_user_fg='\[\e[38;${user_bg_c}m\]'
+#triangle_user_fg="\[\033[38;5;31m\]"
+
+dir_bg_c="2;58;58;58"
+dir_bg='\[\e[48;${dir_bg_c}m\]'
+#dir_bg="\[\033[48;5;239m\]"
+dir_fg_c="2;254;254;254"
+dir_fg='\[\e[38;${dir_fg_c}m\]'
+#dir_fg="\[\033[38;5;254m\]"
+triangle_dir_fg='\[\e[38;${dir_bg_c}m\]'
+#triangle_dir_fg="\[\033[38;5;239m\]"
+
+time_bg_c="2;215;0;95"
+time_bg='\[\e[48;${time_bg_c}m\]'
+#time_bg="\[\033[48;5;161m\]"
+triangle_time_fg='\[\e[38;${time_bg_c}m\]'
+#triangle_time_fg="\[\033[38;5;161m\]"
+
+branch_bg="\[\033[48;5;195m\]"
+branch_fg="\[\033[3;38;5;195m\]"
+
+
+dollar_bg="\[\033[48;5;161m\]"
+black_bg="\[\033[48;5;0m\]"
+b_triangle_fg="\[\033[38;5;0m\]"
+triangle_dollar_fg="\[\033[38;5;161m\]"
+
+RESET="\[$(tput sgr0)\]"
+
+sea_blue="2;0;106;138"
+a_symbol_fg="\[\e[38;${sea_blue}m\]"
+
+triangle_user=$(echo -e "${triangle_user_fg}${dir_bg}\uE0B0${RESET}")
+triangle_branch=$(echo -e "${RESET}${triangle_dir_fg}\uE0B0${RESET}")
+triangle_last=$(echo -e "${triangle_time_fg}\uE0B0")
+a_symbol=$(echo -e "${b_triangle_fg}${user_bg}\uE0B0")
+s1=$(echo -e "\uE0B1")
+#b_symbol=$(echo -e "${b_triangle_fg}${dollar_bg}\uE0B0")
+gradient
+triangle_dollar=$(echo -e "${triangle_dollar_fg}\uE0B0")
+
+PS1="\n${a_symbol}${s1}${s1} ${RESET}${user_bg}\u:\h${triangle_user}${dir_bg}${dir_fg} \w ${branch_fg} \`parse_git_branch\` ${grad_first}${grad_triangle=}\n${grad_second} ${RESET}${time_bg}\t \$${RESET}${triangle_dollar}${RESET} "
+
+
+
