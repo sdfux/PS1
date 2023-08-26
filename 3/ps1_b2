@@ -167,7 +167,7 @@ s1=$(echo -e "\uE0B1")
 gradient
 triangle_dollar=$(echo -e "${triangle_dollar_fg}\uE0B0")
 
-PS1="\n${a_symbol}${s1}${s1} ${RESET}${user_bg}\u:\h${triangle_user}${dir_bg}${dir_fg} \w ${branch_fg} \`parse_git_branch\` ${grad_first}${grad_triangle}\n${grad_second} ${RESET}${time_bg}\t \$${RESET}${triangle_dollar}${RESET} "
+#PS1="\n${a_symbol}${s1}${s1} ${RESET}${user_bg}\u:\h${triangle_user}${dir_bg}${dir_fg} \w ${branch_fg} \`parse_git_branch\` ${grad_first}${grad_triangle}\n${grad_second} ${RESET}${time_bg}\t \$${RESET}${triangle_dollar}${RESET} "
 
 
 
